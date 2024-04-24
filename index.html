@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="././styles/style.css">
   <link rel="stylesheet" href="./styles/chatbot.css">
+
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -23,6 +24,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="https://wa.me/+573218201431">Contáctanos <i class="fab fa-whatsapp"></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-toggle="modal" data-target="#adminModal">Admin</a>
         </li>
       </ul>
     </div>
@@ -67,6 +71,41 @@
     </a>
   </div>
 
+  <!-- Modal de inicio de sesión del administrador -->
+  <div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="adminModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="adminModalLabel">Inicio de Sesión - Administrador</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="admin-login-form">
+            <div class="form-group">
+              <label for="admin-username">Usuario:</label>
+              <input type="text" class="form-control" id="admin-username" required>
+            </div>
+            <div class="form-group">
+              <label for="admin-password">Contraseña:</label>
+              <input type="password" class="form-control" id="admin-password" required>
+            </div>
+            <button type="submit" class="btn btn-danger">Iniciar Sesión</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fin del Modal -->
+
+  <!-- Área para mostrar clientes registrados -->
+  <div id="clients-container" style="display: none;">
+    <h2>Clientes Registrados</h2>
+    <div id="client-list"></div>
+  </div>
+  <!-- Fin del Área -->
+
   <div id="chat-container">
     <!-- Mensajes -->
     <div id="chat-messages">
@@ -84,8 +123,6 @@
   
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="scripts/animateArrow.js"></script>
-  
   <script>
     // Variables para almacenar la información del usuario
     let cedula, apellido, telefono, correo, direccion, numServicio;
@@ -182,7 +219,7 @@
         if (!cedula) {
           // Validar la cédula ingresada
           if (!(/^\d{10}$/.test(userInput))) {
-            displayMessage("➡️ Sólo dígitos en número de tu cédula", 'bot');
+            displayMessage("➡️ Digite correctamente el número de tu cédula", 'bot');
             return;
           }
           cedula = userInput;
@@ -223,6 +260,51 @@
       // Por ejemplo:
       console.log("Mensaje enviado por SMS:", mensaje);
     }
+  </script>
+
+  <!-- Script para manejar la autenticación del administrador y visualización de clientes -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="./admin.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      // Manejar el envío del formulario de inicio de sesión del administrador
+      $('#admin-login-form').submit(function(event) {
+        event.preventDefault();
+        const username = $('#admin-username').val();
+        const password = $('#admin-password').val();
+    
+        // Validar las credenciales del administrador
+        if (username === 'claro2024' && password === 'bot2024') {
+          // Mostrar el área de clientes y cargar la lista de clientes
+          $('#clients-container').show();
+          loadClientList();
+          $('#adminModal').modal('hide'); // Cerrar el modal de inicio de sesión
+        } else {
+          alert('Credenciales incorrectas. Por favor, inténtelo de nuevo.');
+        }
+      });
+    
+      // Función para cargar la lista de clientes
+      function loadClientList() {
+        // Aquí puedes hacer una petición al servidor para obtener la lista de clientes
+        // Por ahora, simularemos algunos clientes de prueba
+        const clients = ['cliente1', 'cliente2', 'cliente3']; // Ejemplo de lista de clientes
+        const clientListContainer = $('#client-list');
+        clientListContainer.empty(); // Limpiar la lista antes de cargar nuevos clientes
+    
+        clients.forEach(function(client, index) {
+          const listItem = $('<div class="client-item"></div>');
+          listItem.text(client);
+          listItem.click(function() {
+            // Aquí puedes manejar el evento de clic en un cliente para ver más detalles
+            // Por ahora, mostraremos una alerta con el nombre del cliente seleccionado
+            alert('Cliente seleccionado: ' + client);
+          });
+          clientListContainer.append(listItem);
+        });
+      }
+    });
   </script>
 </body>
 </html>
