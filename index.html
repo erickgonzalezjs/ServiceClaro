@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claro</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="././styles/style.css">
+  <link rel="stylesheet" href="./styles/chatbot.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Claro</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Servicio Claro</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://wa.me/+573218201431">Contáctanos <i class="fab fa-whatsapp"></i></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="src/c1.jpg" class="d-block w-100" alt="Slide 1">
+        <div class="carousel-caption d-none d-md-block">
+          <h3>Slide 1</h3>
+          <p>Conversación de WhatsApp</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="src/c2.jpg" class="d-block w-100" alt="Slide 2">
+        <div class="carousel-caption d-none d-md-block">
+          <h3>Slide 2</h3>
+          <p>Conversación de WhatsApp</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="src/c3.jpg" class="d-block w-100" alt="Slide 3">
+        <div class="carousel-caption d-none d-md-block">
+          <h3>Slide 3</h3>
+          <p>Conversación de WhatsApp</p>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Anterior</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Siguiente</span>
+    </a>
+  </div>
+
+  <div id="chat-container">
+    <!-- Mensajes -->
+    <div id="chat-messages">
+      <!-- Aquí se mostrarán los mensajes -->
+    </div>
+    <!-- Fin de mensajes -->
+  
+    <!-- Entrada de usuario -->
+    <div class="message user">
+      <input type="text" id="user-input" class="message-input" placeholder="Escribe aquí...">
+      <button id="send-btn" class="send-btn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+    <!-- Fin de entrada de usuario -->
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="scripts/animateArrow.js"></script>
+  
+  <script>
+    // Variables para almacenar la información del usuario
+    let cedula, apellido, telefono, correo, direccion, numServicio;
+  
+    // Mensajes de bienvenida y opciones de servicio
+    const welcomeMessage = "**¡Bienvenido a nuestro portal de Usuario!**\n\nElige el servicio que te interesa:";
+    const serviceOptions = [
+      "1. **TRIPLES PLAY INFALTABLE**",
+      "2. **TRIPLES PLAY PAISA WIN SPORT**",
+      "3. **TRIPLES PLAY CON NETFLIX**",
+      "4. **TRIPLES PLAY A LA MEDIDA**"
+    ];
+  
+    // Información de cada servicio
+    const serviceInfo = [
+      "**TRIPLES PLAY INFALTABLE:**\n\n 200/350 Megas\n Tv Avanzada(1 Deco)+ 2 pantallas Claro Tv+\n☎ Telefonía local ilimitada\n99.900\n25.000 Instalación",
+      "**TRIPLES PLAY PAISA WIN SPORT:**\n\n 150/250 Megas\n Tv VPT Intermedia (1 Deco) + 2 pantallas Claro Tv+\n☎ Telefonía local ilimitada\n99.900\n25.000 Instalación",
+      "**TRIPLES PLAY CON NETFLIX:**\n\n 105/170 Megas\n Tv Básica ( 1 Deco) 2 pantallas Claro Tv+\n☎ Telefonía local ilimitada\n99.900\n25.000 Instalación",
+      "**TRIPLES PLAY A LA MEDIDA:**\n\n 200/350 Megas\n Tv Básica (Sin decos) 2 pantallas Claro Tv+\n☎ Telefonía local ilimitada\n76.900\n25.000 Instalación"
+    ];
+  
+    // Función para mostrar un mensaje en el chat
+    function displayMessage(message, sender) {
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('message', sender);
+      messageElement.innerHTML = `
+        <div class="message-bubble">
+          <p>${message}</p>
+        </div>
+      `;
+      document.getElementById('chat-messages').appendChild(messageElement);
+    }
+  
+    // Función para validar la entrada del usuario
+    function validateUserInput(userInput) {
+        // Validar si la entrada es un correo electrónico válido
+        const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userInput);
+        if (isEmail) {
+          return true;
+        } else if (/^[a-zA-Z]+$/.test(userInput)) { // Validar si la entrada es un apellido válido (solo letras)
+          return true;
+        } else if (/^\d{10}$/.test(userInput)) { // Validar si la entrada es una cédula válida de 10 dígitos
+          return true;
+        } else if (/^[a-zA-Z0-9\s#-]+$/.test(userInput)) { // Permitir letras, números, espacios, "-" y "#"
+          return true;
+        } else if (userInput === "1" || userInput === "2" || userInput === "3" || userInput === "4") {
+          return true;
+        } else if (userInput.toLowerCase() === "si" || userInput.toLowerCase() === "sí") {
+          return true;
+        } else if (userInput.toLowerCase() === "no") {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      
+    // Función para redirigir al usuario a WhatsApp con un número aleatorio
+    function redirectWhatsApp() {
+      // Array con los números de WhatsApp
+      const numerosWhatsApp = ['+573218201431', '+573148396004'];
+      // Seleccionar un número aleatorio
+      const numeroAleatorio = Math.floor(Math.random() * numerosWhatsApp.length);
+      const numeroWhatsApp = numerosWhatsApp[numeroAleatorio];
+      // Construir la URL de WhatsApp
+      const url = `whatsapp://send?phone=${numeroWhatsApp}`;
+      // Redirigir al usuario a WhatsApp
+      window.location.href = url;
+    }
+
+    // Función para manejar la entrada del usuario
+    function handleUserInput(event) {
+      event.preventDefault();
+      const userInput = document.getElementById('user-input').value.trim();
+      document.getElementById('user-input').value = '';
+  
+      // Validar la entrada del usuario
+      if (!validateUserInput(userInput)) {
+        displayMessage("**Por favor, ingresa una opción válida.**", 'bot');
+        return;
+      }
+  
+      // Si el usuario selecciona un servicio
+      if (userInput === "1" || userInput === "2" || userInput === "3" || userInput === "4") {
+        numServicio = parseInt(userInput);
+        displayMessage(serviceInfo[numServicio - 1], 'bot');
+        displayMessage("**¿Estás interesado en este servicio? Escribe Si o No.**", 'bot');
+      } else if (userInput.toLowerCase() === "si" || userInput.toLowerCase() === "sí") {
+        displayMessage("**Por favor, proporciona tu información para continuar:**", 'bot');
+        displayMessage("**- Escriba su número de Cédula:**", 'bot');
+      } else if (userInput.toLowerCase() === "no") {
+        displayMessage("**Te redirigiré al menú de opciones.**", 'bot');
+        displayMessage(serviceOptions.join('\n'), 'bot');
+      } else {
+        if (!cedula) {
+          // Validar la cédula ingresada
+          if (!(/^\d{10}$/.test(userInput))) {
+            displayMessage("➡️ Sólo dígitos en número de tu cédula", 'bot');
+            return;
+          }
+          cedula = userInput;
+          displayMessage("**- Escriba suApellido:**", 'bot');
+        } else if (!apellido) {
+          apellido = userInput;
+          displayMessage("**- Escriba su Correo Electrónico:**", 'bot');
+        } else if (!correo) {
+          correo = userInput;
+          displayMessage("**- Dirección:**", 'bot');
+        } else if (!direccion) {
+          direccion = userInput;
+          displayMessage("**- Teléfono:**", 'bot');
+        } else if (!telefono) {
+          telefono = userInput;
+          // Una vez que se ha ingresado el teléfono, enviar los datos del usuario
+          redirectWhatsApp(); // Redirigir a WhatsApp
+        }
+      }
+    }
+  
+    // Función para iniciar el chatbot
+    function startChatBot() {
+      displayMessage(welcomeMessage, 'bot');
+      displayMessage(serviceOptions.join('\n'), 'bot');
+    }
+  
+    // Evento para manejar el envío del formulario
+    document.getElementById('send-btn').addEventListener('click', handleUserInput);
+  
+    // Iniciar el chatbot cuando se carga la página
+    window.onload = startChatBot;
+
+    // Función para enviar el mensaje por SMS
+    function enviarSMS(mensaje) {
+      // Implementa el envío de SMS aquí
+      // Se puede usar una API de SMS o un servicio externo para enviar el mensaje
+      // Por ejemplo:
+      console.log("Mensaje enviado por SMS:", mensaje);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+#chat-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px; /* Reduciendo un poco el ancho */
+    max-height: 400px; /* Altura máxima */
+    background-color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #333;
+    overflow-y: auto;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.message-input-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.message-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 18px;
+    font-size: 16px;
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-right: 10px; /* Ajuste de margen */
+}
+
+.send-btn {
+    width: 60px; /* Ajuste de tamaño del botón */
+    height: 40px;
+    border-radius: 18px;
+    background-color: rgba(255, 127, 127, 0.8);
+    color: #fff;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.message.bot .message-bubble {
+    background-color: rgba(255, 127, 127, 0.8); /* Cambiar a rojo y hacer transparente */
+    color: #fff; /* Cambiar el color del texto */
+    border: 1px solid #ff7f7f; /* Añadir borde */
+    border-radius: 20px; /* Hacer los bordes redondeados */
+    padding: 15px 20px; /* Ajustar el espaciado interno */
+    max-width: 70%; /* Mantener el ancho máximo */
+    word-wrap: break-word; /* Permitir saltos de línea */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Añadir sombra */
+    margin-bottom: 10px; /* Separación inferior entre burbujas */
+}
